@@ -67,3 +67,4 @@ col_names = TRUE, # TRUE to use the first row as column names
 col_types = "guess", # guess the types of columns
 na = "NA") # Character vector of strings to use for missing values
 fruits7
+
