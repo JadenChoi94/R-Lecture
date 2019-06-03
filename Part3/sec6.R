@@ -51,6 +51,6 @@ vec1[-3]
 #===========================================================================
 vec2<-c('봄','여름','가을','겨울')
 vec3<-c('봄','여름','늦여름','초가을')
-union(vec2,vec3)
-setdiff(vec2, vec3)
-intersect(vec2, vec3)
+union(vec2,vec3) #합집합
+setdiff(vec2, vec3)#차집합
+intersect(vec2, vec3)#교집합

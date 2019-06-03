@@ -7,7 +7,7 @@ sweep(mat1, 1, b) # 행 방향으로 sweep
 
 a<-c(1,2,3,4,5); length(a)
 length(mat1)
-library(googleVis) #googleVis 가 뭐지
+library(googleVis) #googleVis 
 length(Fruits)
 
 #수학함수들
