@@ -2,82 +2,83 @@ mpg
 View(mpg)
 library(dplyr)
 #1
-plot(mpg$cty, mpg$hwy, xlim=c(0,50), ylim = c(0,50),
-     xlab='cty', ylab = 'hwy', main=)
+ggplot(mpg, aes(x=cty, y=hwy)) +
+  geom_point(size=1, color='red') +
+  ggtitle('도시연비와 고속도로연비 산점도')
+
 #2
 midwest
 View(midwest)
-plot(midwest$poptotal<=500000, midwest$popasian<=10000, xlab='Poptotal', ylab = 'Popasian')
+midw <- filter(midwest, poptotal <= 500000 && popasian <= 10000)
+options(scipen = 10)
+ggplot(midw, aes(x=poptotal, y=popasian)) +
+  xlim(0,500000) + ylim(0,10000)+
+  geom_point(size=1, color='blue')+
+  ggtitle('전체인구와 아시아인 인구간의 관계')
 
 #3
-mean_cty<-mpg %>%
+avg_cty<-mpg %>%
   filter(class %in% c('suv')) %>%
   group_by(manufacturer) %>%
-  summarise(average = mean(cty)) %>%
-  arrange(desc(average))%>%
+  summarise(average_cty = mean(cty)) %>%
+  arrange(desc(average_cty))%>%
   head(5)
-ggplot(mean_cty, aes(x=, y=))+
-  geom_bar(stat= , fill=)
+avg_cty
+ggplot(avg_cty, aes(x=reorder(manufacturer, -average_cty),
+  y=average_cty, fill=manufacturer)) +
+  geom_col()
+  
 
 #4
-library(plotrix)
 mpg %>%
   group_by(class) %>%
-  summarise(n=n())->forbar; forbar
-go<-t(rbind(forbar)); go
-colnames(go) <- c('2seater', 'compact', 'midsize','minivan','pickup','subcompact','suv')
-gobar<-go[-1,]; gobar
-barplot(as.matrix(gobar), main='자동차 종류별 수', beside=T, ylim=c(0,70),
-          col=rainbow(nrow(go)))
+  summarise(n=n())->fbar; fbar
+
+ggplot(fbar, aes(x=reorder(class, -n), y=n, fill=class)) +
+  geom_col()
 
 #5
-economics; View(economics)
+economics
+View(economics)
 ggplot(economics, aes(x=date, y=psavert)) + 
-  geom_line(color="blue", size=2)+
+  geom_line(color="blue", size=1)+
   ggtitle("개인저축률 변화 추이")
 
 #6
 css<-mpg %>%
   filter(class %in% c('compact', 'subcompact','suv')) %>%
-  group_by(class); css; View(css)
-
-com_cty<-mpg %>%
-  filter(class %in% c('compact')) %>%
-  select(cty); com_cty
-  
-sub_cty<-mpg %>%
-  filter(class %in% c('subcompact')) %>%
-  select(cty); 
-
-suv_cty<-mpg %>%
-  filter(class %in% c('suv')) %>%
-  select(cty);
-
-par(mfrow=c(1,3))
-boxplot(com_cty, col=c('red'), xlab='compact', ylab='cty')
-boxplot(sub_cty, col=c('green'), xlab='subcompact', ylab='cty')
-boxplot(suv_cty, col=c('blue'), xlab='suv', ylab='cty')
+  group_by(class)
+css
+ggplot(css, aes(x=class, y=cty, fill=class)) +
+  geom_boxplot()
 
 #7-1
 diamonds
 View(diamonds)
+ggplot(diamonds, aes(x=cut, fill=cut)) +
+  geom_bar()
 
-diacut<-diamonds %>%
-  group_by(cut) %>%
-  summarise(count = n()) %>%
-  arrange(desc(count))
-
-ggplot(diacut, aes(x=count, y=reorder(cut,count)))+
-  geom_point(size=6) +
-  theme_bw()+
-  theme(panel.grid.major.x = element_blank(),
-        panel.grid.minor.x = element_blank(),
-        panel.grid.major.y = element_line(color='red', linetype = 'dashed'))
 #7-2
-ggplot(diamonds, aes(x=cut, y=price, color=cut, group=cut, main='cut에 따른 가격의 변화'))+
-  geom_line() +
-  geom_point(size=1)
- 
+avg_price <- diamonds %>%
+  group_by(cut) %>%
+  summarise(avg_price = mean(price))
+ggplot(avg_price, aes(x=reorder(cut, avg_price), y=avg_price, fill=cut)) +
+  geom_col()+
+  ggtitle('cut에 따른 가격의 변화')
+'''
+ggplot(diamonds, aes(x=cut, y=price, fill=cut)) +
+  geom_boxplot()+
+  ggtitle('cut에 따른 가격의 변화')
+'''
 #7-3
-
-
+avg_colprice <- diamonds %>%
+  group_by(color) %>%
+  summarise(avg_colprice = mean(price))
+ggplot(avg_colprice, aes(x=color, y=avg_colprice, fill=color)) +
+  geom_col()->gcolor
+ggplot(avg_price, aes(x=cut, y=avg_price, fill=cut)) +
+  geom_col()->gcut
+library(grid)
+library(gridExtra)
+grid.arrange(gcut, gcolor, ncol=2, top = "cut과 color에 따른 가격의 변화")
+#grid.arrange: 하나로 합쳐주는
