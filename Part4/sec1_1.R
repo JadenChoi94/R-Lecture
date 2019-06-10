@@ -8,11 +8,14 @@ treemap(total, vSize='점수',index=c('조','이름'))
 treemap(total, vSize='점수',index=c('점수','조','이름'))
 
 #Stars
-total<-read.table('학생별전체성적_new.txt', header=T, sep',')
+total<-read.table('학생별전체성적_new.txt', header=T, sep=',')
 total
 row.names(total)<-total$이름
+total
 total<-total[,2:7]
-star(total,flip.label=FALSE, draw.segment=FALSE, frame.plot=TRUE,full=TRUE,
+total
+
+stars(total,flip.labels=FALSE, draw.segment=FALSE, frame.plot=TRUE,full=TRUE,
      main='학생별 과목별 성적분석-STAR Chart')
 
 lab<-names(total)

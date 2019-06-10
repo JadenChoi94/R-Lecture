@@ -50,7 +50,7 @@ legend('topright', names(iri), cex=0.8, fill=rainbow(length(iri)))
 
 b1<-iris %>%
   filter(Species=='setosa')%>%
-  select(Sepal.Length)
+  select(Sepal.Length); b1
 b2<-iris %>%
   filter(Species=='setosa')%>%
   select(Sepal.Width)
