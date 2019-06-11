@@ -1,0 +1,287 @@
+---
+title: '[과제5] 최준혁'
+author: "최준혁"
+date: '2019 6 11 '
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 서울시 응답소 2015년 월별 분석
+```{r}
+setwd("D:/Workspace/R_Data_Analysis/Part2/stage1_wordcloud/Ex01_seoul/서울시 응답소_2015년전체")
+library(rJava) #필수 패키지 로딩
+library(KoNLP)
+library(wordcloud)
+library(stringr)
+useSejongDic()
+```
+<br><br>
+##### 1월
+```{r}
+data1<-readLines("응답소_2015_01.txt")
+data2<-sapply(data1, extractNoun, USE.NAMES=F)
+data3<-unlist(data2)
+
+txt<-readLines('응답소gsub.txt')
+for(i in 1:length(txt)){
+  data3<-gsub((txt[i]), '', data3)
+}
+write(unlist(data3),'응답소_2015_01_1.txt')
+data4<-read.table('응답소_2015_01_1.txt')
+wordcount<-table(data4)
+
+set.seed(1234)
+palete<-brewer.pal(8,'Dark2')
+wordcloud(names(wordcount), freq=wordcount,scale=c(3, 0.2), rot.per=0.25, min.freq=2, 
+          random.order=F, random.color=T, colors=palete)
+legend(0.2, 0.9, '서울시 응답소 1월 분석', cex=0.8, fill=NA, border=NA, bg='white', text.col='red',
+       text.font=1, box.col='red')
+```
+<br><br>
+##### 2월
+```{r}
+data1<-readLines("응답소_2015_02.txt")
+data2<-sapply(data1, extractNoun, USE.NAMES=F)
+data3<-unlist(data2)
+
+txt<-readLines('응답소gsub.txt')
+for(i in 1:length(txt)){
+  data3<-gsub((txt[i]), '', data3)
+}
+write(unlist(data3),'응답소_2015_02_1.txt')
+data4<-read.table('응답소_2015_02_1.txt')
+wordcount<-table(data4)
+
+set.seed(1234)
+palete<-brewer.pal(8,'Dark2')
+wordcloud(names(wordcount), freq=wordcount,scale=c(3, 0.2), rot.per=0.25, min.freq=2, 
+          random.order=F, random.color=T, colors=palete)
+legend(0.2, 0.9, '서울시 응답소 2월 분석', cex=0.8, fill=NA, border=NA, bg='white', text.col='red',
+       text.font=1, box.col='red')
+```
+<br><br>
+##### 3월
+```{r}
+data1<-readLines("응답소_2015_03.txt")
+data2<-sapply(data1, extractNoun, USE.NAMES=F)
+data3<-unlist(data2)
+
+txt<-readLines('응답소gsub.txt')
+for(i in 1:length(txt)){
+  data3<-gsub((txt[i]), '', data3)
+}
+write(unlist(data3),'응답소_2015_03_1.txt')
+data4<-read.table('응답소_2015_03_1.txt')
+wordcount<-table(data4)
+
+set.seed(1234)
+palete<-brewer.pal(8,'Dark2')
+wordcloud(names(wordcount), freq=wordcount,scale=c(3, 0.2), rot.per=0.25, min.freq=2, 
+          random.order=F, random.color=T, colors=palete)
+legend(0.2, 0.9, '서울시 응답소 3월 분석', cex=0.8, fill=NA, border=NA, bg='white', text.col='red',
+       text.font=1, box.col='red')
+```
+<br><br>
+##### 4월
+```{r}
+data1<-readLines("응답소_2015_04.txt")
+data2<-sapply(data1, extractNoun, USE.NAMES=F)
+data3<-unlist(data2)
+
+txt<-readLines('응답소gsub.txt')
+for(i in 1:length(txt)){
+  data3<-gsub((txt[i]), '', data3)
+}
+write(unlist(data3),'응답소_2015_04_1.txt')
+data4<-read.table('응답소_2015_04_1.txt')
+wordcount<-table(data4)
+
+set.seed(1234)
+palete<-brewer.pal(8,'Dark2')
+wordcloud(names(wordcount), freq=wordcount,scale=c(3, 0.2), rot.per=0.25, min.freq=2, 
+          random.order=F, random.color=T, colors=palete)
+legend(0.2, 0.8, '서울시 응답소 4월 분석', cex=0.8, fill=NA, border=NA, bg='white', text.col='red',
+       text.font=1, box.col='red')
+```
+<br><br>
+##### 5월
+```{r}
+data1<-readLines("응답소_2015_05.txt")
+data2<-sapply(data1, extractNoun, USE.NAMES=F)
+data3<-unlist(data2)
+
+txt<-readLines('응답소gsub.txt')
+for(i in 1:length(txt)){
+  data3<-gsub((txt[i]), '', data3)
+}
+write(unlist(data3),'응답소_2015_05_1.txt')
+data4<-read.table('응답소_2015_05_1.txt')
+wordcount<-table(data4)
+
+set.seed(1234)
+palete<-brewer.pal(8,'Dark2')
+wordcloud(names(wordcount), freq=wordcount,scale=c(3, 0.2), rot.per=0.25, min.freq=2, 
+          random.order=F, random.color=T, colors=palete)
+legend(0.2, 0.8, '서울시 응답소 5월 분석', cex=0.8, fill=NA, border=NA, bg='white', text.col='red',
+       text.font=1, box.col='red')
+```
+<br><br>
+##### 6월
+```{r}
+data1<-readLines("응답소_2015_05.txt")
+data2<-sapply(data1, extractNoun, USE.NAMES=F)
+data3<-unlist(data2)
+
+txt<-readLines('응답소gsub.txt')
+for(i in 1:length(txt)){
+  data3<-gsub((txt[i]), '', data3)
+}
+write(unlist(data3),'응답소_2015_06_1.txt')
+data4<-read.table('응답소_2015_06_1.txt')
+wordcount<-table(data4)
+
+set.seed(1234)
+palete<-brewer.pal(8,'Dark2')
+wordcloud(names(wordcount), freq=wordcount,scale=c(3, 0.2), rot.per=0.25, min.freq=2, 
+          random.order=F, random.color=T, colors=palete)
+legend(0.2, 0.8, '서울시 응답소 6월 분석', cex=0.8, fill=NA, border=NA, bg='white', text.col='red',
+       text.font=1, box.col='red')
+```
+<br><br>
+##### 7월
+```{r}
+data1<-readLines("응답소_2015_07.txt")
+data2<-sapply(data1, extractNoun, USE.NAMES=F)
+data3<-unlist(data2)
+
+txt<-readLines('응답소gsub.txt')
+for(i in 1:length(txt)){
+  data3<-gsub((txt[i]), '', data3)
+}
+write(unlist(data3),'응답소_2015_07_1.txt')
+data4<-read.table('응답소_2015_07_1.txt')
+wordcount<-table(data4)
+
+set.seed(1234)
+palete<-brewer.pal(8,'Dark2')
+wordcloud(names(wordcount), freq=wordcount,scale=c(3, 0.2), rot.per=0.25, min.freq=2, 
+          random.order=F, random.color=T, colors=palete)
+legend(0.2, 0.8, '서울시 응답소 7월 분석', cex=0.8, fill=NA, border=NA, bg='white', text.col='red',
+       text.font=1, box.col='red')
+```
+<br><br>
+##### 8월
+```{r}
+data1<-readLines("응답소_2015_08.txt")
+data2<-sapply(data1, extractNoun, USE.NAMES=F)
+data3<-unlist(data2)
+
+txt<-readLines('응답소gsub.txt')
+for(i in 1:length(txt)){
+  data3<-gsub((txt[i]), '', data3)
+}
+write(unlist(data3),'응답소_2015_08_1.txt')
+data4<-read.table('응답소_2015_08_1.txt')
+wordcount<-table(data4)
+
+set.seed(1234)
+palete<-brewer.pal(8,'Dark2')
+wordcloud(names(wordcount), freq=wordcount,scale=c(2, 0.2), rot.per=0.25, min.freq=2, 
+          random.order=F, random.color=T, colors=palete)
+legend(0.2, 0.8, '서울시 응답소 8월 분석', cex=0.8, fill=NA, border=NA, bg='white', text.col='red',
+       text.font=1, box.col='red')
+```
+<br><br>
+##### 9월
+```{r}
+data1<-readLines("응답소_2015_09.txt")
+data2<-sapply(data1, extractNoun, USE.NAMES=F)
+data3<-unlist(data2)
+
+txt<-readLines('응답소gsub.txt')
+for(i in 1:length(txt)){
+  data3<-gsub((txt[i]), '', data3)
+}
+data3<-Filter(function(x) {nchar(x)>=3}, data3)
+write(unlist(data3),'응답소_2015_09_1.txt')
+data4<-read.table('응답소_2015_09_1.txt')
+wordcount<-table(data4)
+
+set.seed(1234)
+palete<-brewer.pal(8,'Dark2')
+wordcloud(names(wordcount), freq=wordcount,scale=c(1, 0.2), rot.per=0.25, min.freq=2,  
+          random.order=F, random.color=T, colors=palete)
+legend(0.2, 0.8, '서울시 응답소 9월 분석', cex=0.8, fill=NA, border=NA, bg='white', text.col='red',
+       text.font=1, box.col='red')
+```
+<br><br>
+##### 10월
+```{r}
+data1<-readLines("응답소_2015_10.txt")
+data2<-sapply(data1, extractNoun, USE.NAMES=F)
+data3<-unlist(data2)
+data3<-Filter(function(x) {nchar(x)>1}, data3)
+
+txt<-readLines('응답소gsub.txt')
+for(i in 1:length(txt)){
+  data3<-gsub((txt[i]), '', data3)
+}
+
+write(unlist(data3),'응답소_2015_10_1.txt')
+data4<-read.table('응답소_2015_10_1.txt')
+wordcount<-table(data4)
+
+set.seed(1234)
+palete<-brewer.pal(8,'Dark2')
+wordcloud(names(wordcount), freq=wordcount,scale=c(1, 0.2), rot.per=0.25, min.freq=2, 
+          random.order=F, random.color=T, colors=palete)
+legend(0.2, 0.8, '서울시 응답소 10월 분석', cex=0.8, fill=NA, border=NA, bg='white', text.col='red',
+       text.font=1, box.col='red')
+```
+<br><br>
+##### 11월
+```{r}
+data1<-readLines("응답소_2015_11.txt")
+data2<-sapply(data1, extractNoun, USE.NAMES=F)
+data3<-unlist(data2)
+
+txt<-readLines('응답소gsub.txt')
+for(i in 1:length(txt)){
+  data3<-gsub((txt[i]), '', data3)
+}
+write(unlist(data3),'응답소_2015_11_1.txt')
+data4<-read.table('응답소_2015_11_1.txt')
+wordcount<-table(data4)
+
+set.seed(1234)
+palete<-brewer.pal(8,'Dark2')
+wordcloud(names(wordcount), freq=wordcount,scale=c(1, 0.2), rot.per=0.25, min.freq=2,  
+          random.order=F, random.color=T, colors=palete)
+legend(0.2, 0.8, '서울시 응답소 11월 분석', cex=0.8, fill=NA, border=NA, bg='white', text.col='red',
+       text.font=1, box.col='red')
+```
+<br><br>
+##### 12월
+```{r}
+data1<-readLines("응답소_2015_12.txt")
+data2<-sapply(data1, extractNoun, USE.NAMES=F)
+data3<-unlist(data2)
+
+txt<-readLines('응답소gsub.txt')
+for(i in 1:length(txt)){
+  data3<-gsub((txt[i]), '', data3)
+}
+write(unlist(data3),'응답소_2015_12_1.txt')
+data4<-read.table('응답소_2015_12_1.txt')
+wordcount<-table(data4)
+
+set.seed(1234)
+palete<-brewer.pal(8,'Dark2')
+wordcloud(names(wordcount), freq=wordcount,scale=c(1, 0.2), rot.per=0.25, min.freq=2, 
+          random.order=F, random.color=T, colors=palete)
+legend(0.2, 0.8, '서울시 응답소 12월 분석', cex=0.8, fill=NA, border=NA, bg='white', text.col='red',
+       text.font=1, box.col='red')
+```
