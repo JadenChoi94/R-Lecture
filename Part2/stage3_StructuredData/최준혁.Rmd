@@ -1,0 +1,181 @@
+---
+title: '[과제7]'
+author: "최준혁"
+date: '2019 6 13 '
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+목록
+-
+* 3-3 취직하기가 정말 어렵네요
+* 3-4. 정규직은 정녕 꿈인가요? 근무일수
+    - 3-4. 급여현황
+* 3-5. 전염병을 미리 막아 보자구요! 연도별
+    - 3-5. 월별
+    - 3-5. A형간염 제외 연도별
+  
+<br><br>  
+## 3-3 취직하기가 정말 어렵네요
+```{r}
+setwd('D:/Workspace/R_Data_Analysis/Part2/stage3_StructuredData/mission3-3')
+library(reshape2)
+library(ggplot2)
+library(plotly)
+library(extrafont)
+library(RColorBrewer)
+windowsFonts(malgun = "맑은 고딕")
+theme_update(text = element_text(family = "malgun"))
+
+jobless<-read.csv('2000-2013년 연령별실업율_연령별평균_세로.csv', stringsAsFactors = FALSE)
+arr_job<-melt(jobless, id=c('연도'),
+     variable.name='나이', value.name='실업률')
+
+palete = c(brewer.pal(12, 'Paired'), 
+           brewer.pal(12, 'Paired'), '#56B4E9')
+
+goojicja<-ggplot(arr_job, aes(x=연도, y=실업률, group=나이, fill=나이, color=나이))+
+  geom_line(linetype=1, size=1) +
+  geom_point(size=3) +
+  geom_hline(yintercept=seq(0,10,1), lty='dotted', size=0.1) +
+  theme_classic(base_family="malgun", base_size = 10) +
+  ggtitle(paste('연도별 실업률 현황(단위:%) 출처: 통계청')) +
+  theme(plot.title = element_text(family="malgun",
+                                  face = "bold",
+                                  hjust = 0.5, 
+                                  size = 15, 
+                                  color = "darkblue"))
+goojicja
+```
+<br><br>
+## 3-4. 정규직은 정녕 꿈인가요? 근무일수
+```{r}
+setwd('D:/Workspace/R_Data_Analysis/Part2/stage3_StructuredData/mission3-4')
+workdays<-read.csv('고용형태별_취업자현황_근무일수.csv', header=TRUE, stringsAsFactors = FALSE)
+
+arr_wd<-melt(workdays, id=c('년도'),
+              variable.name='근로자', value.name='근무일')
+
+palete = c(brewer.pal(12, 'Paired'), 
+           brewer.pal(12, 'Paired'), '#56B4E9')
+
+workshift<-ggplot(arr_wd, aes(x=년도, y=근무일, fill=근로자, color=근로자))+
+  geom_line(linetype=1, size=1) +
+  geom_point(size=3) +
+  geom_hline(yintercept=seq(0,30,5), lty='dotted', size=0.1) +
+  theme_classic(base_family="malgun", base_size = 10) +
+  ggtitle(paste('고용형태별 근무일수(단위:일) 출처:통계청')) +
+  theme(plot.title = element_text(family="malgun",
+                                  face = "bold",
+                                  hjust = 0.5, 
+                                  size = 15, 
+                                  color = "darkblue"))
+ggplotly(workshift)
+```
+<br><br>
+## 3-4. 급여현황
+```{r}
+setwd('D:/Workspace/R_Data_Analysis/Part2/stage3_StructuredData/mission3-4')
+payment<-read.csv('고용형태별_취업자현황_월급현황.csv', header=TRUE, stringsAsFactors = FALSE)
+
+arr_pm<-melt(payment, id=c('년도'),
+             variable.name='근로자', value.name='평균급여')
+
+palete = c(brewer.pal(12, 'Paired'), 
+           brewer.pal(12, 'Paired'), '#56B4E9')
+
+monthly<-ggplot(arr_pm, aes(x=년도, y=평균급여, fill=근로자, color=근로자))+
+  geom_line(linetype=1, size=1) +
+  geom_point(size=3) +
+  geom_hline(yintercept=seq(0,2600,200), lty='dotted', size=0.1) +
+  theme_classic(base_family="malgun", base_size = 10) +
+  ggtitle(paste('고용형태별 급여현황(단위:천원) 출처:통계청')) +
+  theme(plot.title = element_text(family="malgun",
+                                  face = "bold",
+                                  hjust = 0.5, 
+                                  size = 15, 
+                                  color = "darkblue"))
+ggplotly(monthly)
+```
+<br><br>
+## 3-5. 전염병을 미리 막아 보자구요! 연도별
+```{r}
+setwd('D:/Workspace/R_Data_Analysis/Part2/stage3_StructuredData/mission3-5')
+flu<-read.csv('1군전염병발병현황_년도별.csv', header=TRUE)
+
+arr_flu<-melt(flu, id=c('년도별'),
+             variable.name='질병', value.name='발병빈도')
+
+palete = c(brewer.pal(12, 'Paired'), 
+           brewer.pal(12, 'Paired'), '#56B4E9')
+
+death<-ggplot(arr_flu, aes(x=년도별, y=발병빈도, fill=질병, color=질병, group=질병))+
+  geom_line(linetype=1, size=1) +
+  geom_point(size=3) + 
+  geom_hline(yintercept=seq(0,6000,200), lty='dotted', size=0.1) +
+  theme_classic(base_family="malgun", base_size = 10) +
+  ggtitle(paste('1군 전염병 발병현황-년도별(단위:건수) 출처 통계청')) +
+  theme(plot.title = element_text(family="malgun",
+                                  face = "bold",
+                                  hjust = 0.5, 
+                                  size = 15, 
+                                  color = "darkblue"))
+death
+```
+<br><br>
+## 3-5. 월별
+```{r}
+setwd('D:/Workspace/R_Data_Analysis/Part2/stage3_StructuredData/mission3-5')
+flu2<-read.csv('1군전염병발병현황_월별.csv', header=TRUE, stringsAsFactors = FALSE)
+
+arr_flu2<-melt(flu2, id=c('월별'),
+              variable.name='질병', value.name='발병빈도')
+
+palete = c(brewer.pal(12, 'Paired'), 
+           brewer.pal(12, 'Paired'), '#56B4E9')
+
+death2<-ggplot(arr_flu2, aes(x=월별, y=발병빈도, fill=질병, color=질병, group=질병))+
+  geom_line(linetype=1, size=1) +
+  geom_point(size=3) + 
+  geom_hline(yintercept=seq(0,1100,50), lty='dotted', size=0.1) +
+  theme_classic(base_family="malgun", base_size = 10) +
+  ggtitle(paste('1군 전염병 발병현황-년도별(단위:건수) 출처 통계청')) +
+  theme(plot.title = element_text(family="malgun",
+                                  face = "bold",
+                                  hjust = 0.5, 
+                                  size = 15, 
+                                  color = "darkblue"))+
+  theme(axis.text.x=element_text(angle=90, hjust=1, vjust=1,
+                                 colour="black", size=8))
+death2
+```
+<br><br>
+## 3-5. A형간염 제외 연도별
+```{r}
+setwd('D:/Workspace/R_Data_Analysis/Part2/stage3_StructuredData/mission3-5')
+flu3<-read.csv('1군전염병발병현황_년도별.csv', header=TRUE, stringsAsFactors = FALSE)
+flu3<-flu3[,-6]
+
+arr_flu3<-melt(flu3, id=c('년도별'),
+               variable.name='질병', value.name='발병빈도')
+
+palete = c(brewer.pal(12, 'Paired'), 
+           brewer.pal(12, 'Paired'), '#56B4E9')
+
+death3<-ggplot(arr_flu3, aes(x=년도별, y=발병빈도, fill=질병, color=질병, group=질병))+
+  geom_line(linetype=1, size=1) +
+  geom_point(size=3) + 
+  geom_hline(yintercept=seq(0,1100,50), lty='dotted', size=0.1) +
+  theme_classic(base_family="malgun", base_size = 10) +
+  ggtitle(paste('1군 전염병(A형 제외) 발병현황-년도별(단위:건수) 출처 통계청')) +
+  theme(plot.title = element_text(family="malgun",
+                                  face = "bold",
+                                  hjust = 0.5, 
+                                  size = 15, 
+                                  color = "darkblue"))+
+  theme(axis.text.x=element_text(angle=90, hjust=1, vjust=1,
+                                 colour="black", size=8))
+death3
+```
