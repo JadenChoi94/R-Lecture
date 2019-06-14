@@ -133,3 +133,16 @@ divisors(10)
 #=====================연습문제=========================
 var1<-read.csv("채소.txt", header=TRUE, fileEncoding = 'utf8')
 var1
+#=======================================================
+for (i in seq(2,10,1)) {
+  sum<-sum+i
+}
+print(sum)
+
+for (i in seq(1,3,0.1)) {
+  print(i)
+}
+
+for (i in c(1,3,4,6,8)) {
+  print(i)
+}

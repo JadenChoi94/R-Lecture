@@ -1,6 +1,7 @@
 # iris 데이터로 그래프 그리기
 #1. 산점도
 library(dplyr)
+
 View(iris)
 iris_setosa <- filter(iris, Species == 'setosa')
 iris_versicolor <- filter(iris, Species == 'versicolor')
@@ -57,6 +58,11 @@ barplot(as.matrix(mean_of_iris), main='품종별 평균',
 legend(0.2, 25, 
        c("Sepal.length","Sepal.width","Petal.length","Petal.width"), cex=0.8,
        fill=c('red','yellow','green','blue'))
+#이상치제거
+iris_setosa$Sepal.Width <- ifelse(iris_setosa$Sepal.Width < 2.5, NA, iris_setosa$Sepal.Width)
+iris_setosa$Petal.Length <- ifelse(iris_setosa$Petal.Length < 1.1, NA, iris_setosa$Petal.Length)
+iris_setosa$Petal.Width <- ifelse(iris_setosa$Petal.Width >0.4, NA, iris_setosa$Petal.Width)
+sort(iris_setosa$Petal.Width, decreasing = T)
 
 #3. Boxplot
 par(mfrow=c(3,1))
@@ -65,11 +71,13 @@ boxplot(iris_setosa$Sepal.Length, iris_setosa$Sepal.Width,
         col=c('red','yellow','green','blue'),
         names=c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width'),
         main='Setosa')
+
 boxplot(iris_versicolor$Sepal.Length, iris_versicolor$Sepal.Width,
         iris_versicolor$Petal.Length, iris_versicolor$Petal.Width,
         col=c('red','yellow','green','blue'),
         names=c('Sepal.Length','Sepal.Width','Petal.Length','Petal.Width'),
         main='Versicolor')
+
 boxplot(iris_virginica$Sepal.Length, iris_virginica$Sepal.Width,
         iris_virginica$Petal.Length, iris_virginica$Petal.Width,
         col=c('red','yellow','green','blue'),

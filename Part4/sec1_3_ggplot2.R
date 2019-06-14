@@ -1,12 +1,13 @@
 #ggplot2
 install.packages('ggplot2')
 library(ggplot2)
+setwd("d:/Workspace/R_Data_Analysis/Part4/data")
 korean<-read.table("학생별국어성적_new.txt", header=T, sep=',')
 korean
 ggplot(korean, aes(x=이름, y=점수))+
   geom_point() #계속옵션들 + + 가능, positional argument
-ggplot(data=korean, mapping= aes(x=이름, y=점수))+
-  geom_point() # keyword argument
+ggplot(mapping= aes(x=이름, y=점수), data=korean)+
+  geom_point()                    # keyword argument
 ggplot(korean, aes(x=이름, y=점수))+
   geom_bar(stat='identity')
 ggplot(korean, aes(x=이름, y=점수))+
@@ -17,37 +18,58 @@ gg+theme(axis.text.x=element_text(angle=45, hjust = 1,vjust = 1, color='blue', s
 #===========================================================================================
 score_kem<-read.csv('학생별과목별성적_국영수_new.csv', header=T); score_kem
 library(dplyr)
-sort_kem<-arrange(score_kem, 이름, 과목); sort_kem
-sort_kem2<-ddply(sort_kem, '이름', transform, 누적합계=cumsum(점수)); sort_kem2
+sort_kem<-arrange(score_kem, 이름, 과목); sort_kem #가나다 순으로 정렬렬
+#sort_kem2<-ddply(sort_kem, '이름', transform, 누적합계=cumsum(점수)); sort_kem2
 
-'''
-위와 같다
-sort_kem2<-sort_kem %>%
+sort_kem2 <- sort_kem %>%
   group_by(이름) %>%
-  mutate(누적합계=cumsum(점수)); sort_kem2
-'''
-sort_kem3<-ddply(sort_kem2, '이름', transform, 누적합계=cumsum(점수), label=cumsum(점수)-0.5*점수); sort_kem3
+  mutate(누적합계=cumsum(점수))
+sort_kem2
+# sort_kem3 <- ddply(sort_kem2,"이름",transform,누적합계=cumsum(점수),
+#                    label=cumsum(점수)-0.5*점수)
+sort_kem3 <- sort_kem2 %>%
+  group_by(이름) %>%
+  mutate(label=cumsum(점수)-0.5*점수)
+sort_kem3
 
-'''
-sort_kem4<-sort_kem %>%
+sort_kem4 <- sort_kem %>%
   group_by(이름) %>%
   mutate(누적합계=cumsum(점수)) %>%
-  mutate(label=cumsum(점수)-0.5*점수); sort_kem4
-
-sort_kem5<-sort_kem %>%
+  mutate(label=cumsum(점수)-0.5*점수)
+sort_kem4
+sort_kem5 <- sort_kem %>%
   group_by(이름) %>%
-  mutate(누적합계=cumsum(점수), label=cumsum(점수)-0.5*점수); sort_kem5
-'''
+  mutate(누적합계=cumsum(점수), label=cumsum(점수)-0.5*점수)
+sort_kem5
+ggplot(sort_kem5, aes(x=이름, y=점수, fill=과목)) + 
+  geom_bar(stat="identity") +
+  geom_text(aes(y=label, label=paste(점수,'점')), colour="black",
+            size=4)
 
-ggplot(sort_kem3, aes(x=이름, y=점수, fill=과목))+
-  geom_bar(stat='identity')+
-  geom_text(aes(y=label, label=paste(점수, '점')), color='black', size=4)
+ggplot(sort_kem5, aes(x=이름, y=점수, fill=과목)) + 
+  geom_bar(stat="identity") +
+  geom_text(aes(y=label, label=paste(점수,'점')), colour="black",
+            size=4) +
+  # guides(fill=guide_legend(reverse=T)) +
+  theme(axis.text.x=element_text(angle=45, hjust=1, vjust=1,
+                                 colour="black", size=8))
 
-gg2<-ggplot(sort_kem3, aes(x=이름, y=점수, fill=과목))+
-  geom_bar(stat='identity')+
-  geom_text(aes(y-label, label=paste(점수, '점')), color='black', size=4)+
-  guides(fill=guide_legend(reverse=T))+
-  theme(axis.text.x = element_text(angle=45, hjust=1, vjust=1, color='black', size=8))
+score <- read.table("학생별전체성적_new.txt",header=T,sep=",")
+score
+score_eng <- score[, c('이름','영어')]
+ggplot(score, aes(x=영어, y=reorder(이름,영어))) +
+  geom_point(size=4) +
+  theme_classic() +
+  theme(panel.grid.major.x=element_blank( ) ,
+        panel.grid.minor.x=element_blank( ) ,
+        panel.grid.major.y=element_line(color="red",
+                                        linetype="dashed"))
+
+ggplot(score, aes(x=영어, y=reorder(이름,영어))) + 
+  geom_segment(aes(yend=이름), xend=0, color="blue") +
+  geom_point(size=6, color="green") +
+  theme_bw() +
+  theme(panel.grid.major.y=element_blank())
 #===============================================================================
 #geom_segment()
 

@@ -79,4 +79,4 @@ mpg %>%
   filter(class == 'compact') %>%
   group_by(manufacturer) %>%
   summarise(count = n()) %>%
-  arrange(desc(count)
+  arrange(desc(count))
